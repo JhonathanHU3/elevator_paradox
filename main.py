@@ -8,21 +8,21 @@ class Screen:
         
         pygame.init();
         
+        # Colors
         WHITE = (255, 255, 255)
         BLACK = (0, 0, 0)
         GRAY = (100, 100, 100)
         DARK_GRAY = (50, 50, 50)
         
+        # Fonts
         font_title = pygame.font.SysFont(None, 100)
         font_button = pygame.font.SysFont(None, 50)
         
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT));
-        
         self.gameOn = True;
         self.clock = pygame.time.Clock()
         
-        
-        
+        # Menu Screen
         if self.type == "MENU":
             title_text = font_title.render("Elevator Paradox", True, WHITE)
             title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
@@ -46,7 +46,8 @@ class Screen:
                         self.gameOn = False
                     elif e.type == MOUSEBUTTONDOWN:
                         if start_button_rect.collidepoint(e.pos):
-                            print("Começar o jogo!")  
+                                game = Screen("GAME")
+                                game.run()
                         elif exit_button_rect.collidepoint(e.pos):
                             pygame.quit()
                             sys.exit()
@@ -58,7 +59,7 @@ class Screen:
                 pygame.display.update()
 
             
-            
+        # Game screen    
         elif self.type == "GAME": 
             
             while self.gameOn:
@@ -75,6 +76,6 @@ class Screen:
         
         pass
 
-if __name__ == "__main__":
-    game = Screen("MENU")
-    game.run()
+
+game = Screen("MENU")
+game.run()
