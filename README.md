@@ -1,5 +1,4 @@
 # Elavator ParadoxZ
-# Elevator Paradox
 
 **Elevator Paradox** é um jogo desenvolvido em **Pygame**, onde o jogador deve sobreviver a um apocalipse zumbi dentro de uma faculdade. O jogo desafia o jogador a escolher entre usar o elevador ou as escadas para escapar dos zumbis, com o objetivo de sobreviver o maior tempo possível.
 
