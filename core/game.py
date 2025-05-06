@@ -1,35 +1,33 @@
 import pygame, sys;
 from pygame.locals import *;
 from settings import *;
-from core.states import *;
+from scenes.startscreen import StartScreenScene
 
-class Game():
+class Game:
     def __init__(self):
-        pygame.init();
-        self.gameRunning = True;
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT));
-        self.clock = pygame.time.Clock();
-        
-        self.states = {
-        "STARTSCREEN": StartScreenState(self),
-        }
-        
-        self.state_name = "STARTSCREEN"
-        self.state = self.states[self.state_name]
+        pygame.init()
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Elevator Paradox")
+        self.clock = pygame.time.Clock()
+        self.running = True
 
-        pass
-    
+        # Começa com a cena da tela inicial
+        self.scene = StartScreenScene(self)
+
     def run(self):
-        while(self.gameRunning):
-            events = pygame.event.get();
-            self.clock.tick(FPS);
-            
-            self.state.handle_events(events);
-            
-            if self.state.done:
-                self.new_state_name = self.state.next_state
-                self.state = self.states[self.new_state_name]
+        while self.running:
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.running = False
+
+            self.scene.handle_events(events)
+            self.scene.update()
+            self.scene.draw()
+
+            pygame.display.flip()
+            self.clock.tick(FPS)
+
+        pygame.quit()
+        sys.exit()            
     
-    def change_state(self, new_state_name):
-        self.state_name = new_state_name
-        self.state = self.states[self.state_name]

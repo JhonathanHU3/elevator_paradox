@@ -1,6 +1,5 @@
 import pygame, sys;
 from pygame.locals import *;
-from settings import *;
 
 class Screen:
     def __init__(self, type):
@@ -18,17 +17,17 @@ class Screen:
         font_title = pygame.font.SysFont(None, 100)
         font_button = pygame.font.SysFont(None, 50)
         
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT));
+        self.screen = pygame.display.set_mode((1280, 720));
         self.gameOn = True;
         self.clock = pygame.time.Clock()
         
         # Menu Screen
         if self.type == "MENU":
             title_text = font_title.render("Elevator Paradox", True, WHITE)
-            title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+            title_rect = title_text.get_rect(center=(1280 // 2, 720 // 4))
 
-            start_button_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 - 50, 300, 60)
-            exit_button_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 + 30, 300, 60)
+            start_button_rect = pygame.Rect(1280 // 2 - 150, 720 // 2 - 50, 300, 60)
+            exit_button_rect = pygame.Rect(1280 // 2 - 150, 720 // 2 + 30, 300, 60)
 
             def draw_button(rect, text):
                 pygame.draw.rect(self.screen, DARK_GRAY, rect)
@@ -38,7 +37,7 @@ class Screen:
                 self.screen.blit(label, label_rect)
             
             while self.gameOn:
-                self.clock.tick(FPS)
+                self.clock.tick(60)
                 self.screen.fill(BLACK)
 
                 for e in pygame.event.get():
@@ -63,7 +62,7 @@ class Screen:
         elif self.type == "GAME": 
             
             while self.gameOn:
-                self.clock.tick(FPS);
+                self.clock.tick(60);
                 for e in pygame.event.get():
                     if e.type == QUIT:
                         self.gameOn = False;
