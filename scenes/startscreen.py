@@ -38,6 +38,12 @@ class StartScreenScene:
                 elif self.exit_button_rect.collidepoint(e.pos):
                     pygame.quit()
                     sys.exit()
+                    
+    def change_scene(self, new_name):
+        if new_name in self.scenes:
+            self.scene_name = new_name
+            self.scene = self.scenes[new_name](self)
+            print(f"Trocar para cena: {new_name}")
 
     def update(self):
         pass

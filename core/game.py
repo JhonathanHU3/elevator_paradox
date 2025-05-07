@@ -1,7 +1,8 @@
 import pygame, sys;
 from pygame.locals import *;
 from settings import *;
-from scenes.startscreen import StartScreenScene
+from scenes.startscreen import StartScreenScene;
+from scenes.cutscene import Cutscene;
 
 class Game:
     def __init__(self):
@@ -10,9 +11,14 @@ class Game:
         pygame.display.set_caption("Elevator Paradox")
         self.clock = pygame.time.Clock()
         self.running = True
+        
+        self.scenes = {
+            "STARTSCREEN": StartScreenScene,
+            "CUTSCENE": Cutscene
+        }
 
-        # Começa com a cena da tela inicial
-        self.scene = StartScreenScene(self)
+        self.scene_name = "STARTSCREEN"
+        self.scene = self.scenes[self.scene_name](self)
 
     def run(self):
         while self.running:
