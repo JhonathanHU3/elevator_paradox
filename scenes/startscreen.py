@@ -6,6 +6,7 @@ class StartScreenScene:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
+        self.next_scene_name = None
 
         self.WHITE = (255, 255, 255)
         self.DARK_GRAY = (50, 50, 50)
@@ -35,15 +36,11 @@ class StartScreenScene:
             elif e.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button_rect.collidepoint(e.pos):
                     print("Iniciar o jogo (clicou no botão)")
+                    self.next_scene_name = "GAMEPLAY"
+                    
                 elif self.exit_button_rect.collidepoint(e.pos):
                     pygame.quit()
                     sys.exit()
-                    
-    def change_scene(self, new_name):
-        if new_name in self.scenes:
-            self.scene_name = new_name
-            self.scene = self.scenes[new_name](self)
-            print(f"Trocar para cena: {new_name}")
 
     def update(self):
         pass
