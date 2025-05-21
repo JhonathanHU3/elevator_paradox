@@ -9,7 +9,7 @@ class Player:
         self.x = 640;
         self.y = 360;
         
-        self.image = pygame.Surface((32, 48)) 
+        self.image = pygame.Surface((32, 48))  
         self.image.fill((100, 150, 150))
 
         self.rect = self.image.get_rect(topleft=(start_x, start_y))
