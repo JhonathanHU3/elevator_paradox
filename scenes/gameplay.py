@@ -32,7 +32,6 @@ class Gameplay():
 
         self.world.draw(self.game.screen, offset)
         self.player.draw(self.game.screen, offset)
-        print("Player pos:", self.player.rect.topleft)
         pass
         
         

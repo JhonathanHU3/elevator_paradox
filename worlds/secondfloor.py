@@ -1,11 +1,12 @@
 import pygame
 
 tile_map = [
-    "WWWWWWWWWW",
-    "W........W",
-    "W..P.....W",
-    "W........W",
-    "WWWWWWWWWW"
+    "WWWWWWWWWWWWWW",
+    "W............W",
+    "W..P.........W",
+    "W............W",
+    "W............W",
+    "WWWWWWWWWWWWWW"
 ]
 
 tile_size = 64
@@ -16,7 +17,6 @@ class World:
         self.walls = []
         self.start_pos = pygame.Vector2(0, 0)
 
-        # Carrega as imagens uma vez só
         self.img_floor = pygame.image.load("assets/tileset/chao.png").convert()
         self.img_wall = pygame.image.load("assets/tileset/chao.png").convert()
 
