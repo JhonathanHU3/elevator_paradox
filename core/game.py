@@ -41,10 +41,10 @@ class Game:
             self.scene.draw()
             
             if hasattr(self.scene, "next_scene_name") and self.scene.next_scene_name:
-                self.change_scene(self.scene.next_scene_name)
+                self.change_scene(self.scene.next_scene_name);
 
-            pygame.display.flip()
-            self.clock.tick(FPS)
+            pygame.display.flip();
+            self.clock.tick(FPS);
 
         pygame.quit()
         sys.exit()            
