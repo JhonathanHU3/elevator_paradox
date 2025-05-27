@@ -10,10 +10,10 @@ class Player:
         self.x = 640;
         self.y = 360;
         
-        self.attack_cooldown = 2  # segundos
+        self.attack_cooldown = 0  # segundos
         self.last_attack_time = 0
         self.attacking = False
-        self.attack_duration = 0.3
+        self.attack_duration = 0.6
         self.attack_start_time = 0
         
         self.image = pygame.Surface((32, 48))  

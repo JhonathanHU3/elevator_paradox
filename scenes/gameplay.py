@@ -16,7 +16,7 @@ class Gameplay:
         self.player = Player(self.world.start_pos.x, self.world.start_pos.y)
 
         self.enemies = []
-        self.max_enemies = 10
+        self.max_enemies = 20
         self.spawn_duration = 120  # segundos
         self.spawn_start_time = time.time()
 
