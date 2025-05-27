@@ -1,13 +1,19 @@
-import pygame;
-from pygame.locals import *;
+import pygame
+from pygame.locals import *
 
 class Player:
     def __init__(self, start_x, start_y):
-        self.lifePoints = 20;
-        self.damage = 3;
-        self.contactDamage = 5;
-        self.x = 640;
-        self.y = 360;
+        self.lifePoints = 20
+        self.damage = 3
+        self.contactDamage = 5
+        self.x = 640
+        self.y = 360
+        
+        self.attack_cooldown = 2000  # milissegundos → 2 segundos
+        self.last_attack_time = 0
+        self.attacking = False
+        self.attack_duration = 300  # milissegundos → 0.3s
+        self.attack_start_time = 0
         
         self.image = pygame.Surface((32, 48))  
         self.image.fill((100, 150, 150))
@@ -16,6 +22,9 @@ class Player:
         self.speed = 5
 
     def move(self, walls):
+        if self.attacking:
+            return
+        
         keys = pygame.key.get_pressed()
         dx, dy = 0, 0
 
@@ -28,35 +37,68 @@ class Player:
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             dx = self.speed
 
-    # Move em X e verifica colisão
+        # Move em X e verifica colisão
         self.rect.x += dx
         for wall in walls:
             if self.rect.colliderect(wall):
-                if dx > 0:  # indo para direita
+                if dx > 0:
                     self.rect.right = wall.left
-                if dx < 0:  # indo para esquerda
+                if dx < 0:
                     self.rect.left = wall.right
 
-    # Move em Y e verifica colisão
+        # Move em Y e verifica colisão
         self.rect.y += dy
         for wall in walls:
             if self.rect.colliderect(wall):
-                if dy > 0:  # descendo
+                if dy > 0:
                     self.rect.bottom = wall.top
-                if dy < 0:  # subindo
+                if dy < 0:
                     self.rect.top = wall.bottom
-        
-    
+
     def draw(self, screen, offset):
         screen.blit(self.image, self.rect.topleft - offset)
-    
+
     def update(self):
-        pass
-    
-    def attack():
-        
-        pass
-    
-    def throwProjectile():
-        
+        current_time = pygame.time.get_ticks()
+
+        if self.attacking:
+            if current_time - self.attack_start_time >= self.attack_duration:
+                self.attacking = False
+
+    def attack(self, game):
+        current_time = pygame.time.get_ticks()
+
+        if not self.attacking and current_time - self.last_attack_time >= self.attack_cooldown:
+            self.attacking = True
+            self.attack_start_time = current_time
+            self.last_attack_time = current_time
+
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
+            offset = pygame.Vector2(
+                self.rect.centerx - game.screen.get_width() // 2,
+                self.rect.centery - game.screen.get_height() // 2
+            )
+            mouse_pos_world = pygame.Vector2(mouse_x, mouse_y) + offset
+
+            direction = pygame.Vector2(mouse_pos_world) - pygame.Vector2(self.rect.center)
+
+            if direction.length() == 0:
+                return
+
+            direction = direction.normalize()
+
+            attack_range = 50
+            attack_rect = pygame.Rect(0, 0, 40, 40)
+            attack_rect.center = (
+                self.rect.centerx + direction.x * attack_range,
+                self.rect.centery + direction.y * attack_range
+            )
+
+            for enemy in game.enemies:
+                if attack_rect.colliderect(enemy.rect):
+                    enemy.lifePoints -= self.damage
+                    print("💥 Acertou um inimigo! Vida restante:", enemy.lifePoints)
+
+    def throwProjectile(self):
         pass
