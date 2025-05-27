@@ -23,6 +23,9 @@ class World:
         self.walls = []
         self.tile_size = 64
         self.start_pos = pygame.Vector2(0, 0)
+        
+        self.width = len(tile_map[0]) * self.tile_size
+        self.height = len(tile_map) * self.tile_size
 
         self.img_floor = pygame.image.load("assets/tileset/chao.png").convert()
         self.img_wall = pygame.image.load("assets/tileset/wall.png").convert()
@@ -51,8 +54,3 @@ class World:
             if screen_rect.colliderect(draw_pos):
                 screen.blit(img, draw_pos)
                 
-                
-    def get_size(self):
-        width = len(tile_map[0]) * self.tile_size
-        height = len(tile_map) * self.tile_size
-        return width, height

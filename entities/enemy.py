@@ -12,13 +12,16 @@ class Enemy:
         self.last_hit_time = 0 
         self.damage = 2
 
-    def update(self, player, walls, enemies):
+    def update(self, player, walls, enemies, world):
         direction = pygame.Vector2(player.rect.center) - pygame.Vector2(self.rect.center)
         if direction.length() != 0:
             direction = direction.normalize()
 
         dx = direction.x * self.speed
         dy = direction.y * self.speed
+        
+        if (self.rect.left < 0 or self.rect.top < 0 or self.rect.right > world.width or self.rect.bottom > world.height):
+            self.lifePoints = 0;
 
     # Move no X e verifica colisão com parede
         self.rect.x += dx
@@ -48,6 +51,17 @@ class Enemy:
 
     # Dano ao player
         if self.rect.colliderect(player.rect):
+            overlap = self.rect.clip(player.rect)
+            if overlap.width > overlap.height:
+                if self.rect.centery < player.rect.centery:
+                    self.rect.top = player.rect.top - self.rect.height
+                else:
+                    self.rect.bottom = player.rect.bottom + self.rect.height
+            else:
+                if self.rect.centerx < player.rect.centerx:
+                    self.rect.left = player.rect.left - self.rect.width
+                else:
+                    self.rect.right = player.rect.right + self.rect.width
             current_time = time.time()
             if current_time - self.last_hit_time >= 1:
                 player.lifePoints -= self.damage

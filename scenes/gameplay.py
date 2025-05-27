@@ -24,11 +24,10 @@ class Gameplay():
             self.spawn_enemy()
 
     def spawn_enemy(self):
-        map_width, map_height = self.world.get_size()
-
+        
         while True:
-            x = random.randint(0, map_width - self.world.tile_size)
-            y = random.randint(0, map_height - self.world.tile_size)
+            x = random.randint(0, self.world.width - self.world.tile_size)
+            y = random.randint(0, self.world.height - self.world.tile_size)
         
             enemy_rect = pygame.Rect(x, y, 32, 48)
         
@@ -56,7 +55,7 @@ class Gameplay():
         self.player.move(self.world.walls)
         
         for enemy in self.enemies:
-            enemy.update(self.player, self.world.walls, self.enemies)
+            enemy.update(self.player, self.world.walls, self.enemies, self.world)
 
         # Remove inimigos mortos
         self.enemies = [e for e in self.enemies if e.lifePoints > 0]
@@ -79,7 +78,11 @@ class Gameplay():
         self.world.draw(self.game.screen, offset)
         self.player.draw(self.game.screen, offset)
         for enemy in self.enemies:
-            enemy.draw(self.screen, offset)
+            if (0 <= enemy.rect.left <= self.world.width and
+                0 <= enemy.rect.top <= self.world.height and
+                0 <= enemy.rect.right <= self.world.width and
+                0 <= enemy.rect.bottom <= self.world.height):
+                    enemy.draw(self.screen, offset)
         pass
         
         
