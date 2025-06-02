@@ -16,6 +16,7 @@ class Gameplay:
         self.player = Player(self.world.start_pos.x, self.world.start_pos.y)
 
         self.enemies = []
+        self.projectiles = []
         self.max_enemies = 20
         self.spawn_duration = 120  # segundos
         self.spawn_start_time = time.time()
@@ -47,8 +48,11 @@ class Gameplay:
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                self.player.attack(self)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    self.player.attack(self)
+                elif event.button == 3:
+                    self.player.throwProjectile(self)
 
     def update(self):
         self.player.update()
@@ -75,6 +79,14 @@ class Gameplay:
 
         self.world.draw(self.game.screen, offset)
         self.player.draw(self.game.screen, offset)
+
+        for projectile in self.projectiles:
+            projectile.draw(self.screen, offset)
+
+        for projectile in self.projectiles[:]:
+            projectile.update(self)
+            if not projectile.alive:
+                self.projectiles.remove(projectile)
 
         for enemy in self.enemies:
             # Só desenha se está dentro do mundo

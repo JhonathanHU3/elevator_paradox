@@ -1,5 +1,6 @@
 import pygame;
 import time;
+from entities.projectile import Projectile;
 from pygame.locals import *;
 
 class Player:
@@ -103,7 +104,21 @@ class Player:
                     enemy.lifePoints -= self.contactDamage
                     print("💥 Acertou um inimigo! Vida restante:", enemy.lifePoints)
         pass
-    
-    def throwProjectile():
-        
+
+    def throwProjectile(self, game):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        offset = pygame.Vector2(
+            self.rect.centerx - game.screen.get_width() // 2,
+            self.rect.centery - game.screen.get_height() // 2
+        )
+        mouse_pos_world = pygame.Vector2(mouse_x, mouse_y) + offset
+
+        direction = mouse_pos_world - pygame.Vector2(self.rect.center)
+
+        if direction.length() == 0:
+            return
+
+        projectile = Projectile(self.rect.centerx, self.rect.centery, direction)
+        game.projectiles.append(projectile)
+
         pass
