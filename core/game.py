@@ -4,6 +4,7 @@ from settings import *;
 from scenes.startscreen import StartScreenScene;
 from scenes.cutscene import Cutscene;
 from scenes.gameplay import Gameplay
+from scenes.gameover import GameOver
 
 class Game:
     def __init__(self):
@@ -16,8 +17,8 @@ class Game:
         self.scenes = {
             "STARTSCREEN": StartScreenScene,
             "CUTSCENE": Cutscene,
-            "GAMEPLAY": Gameplay
-        }
+            "GAMEPLAY": Gameplay,
+            "GAMEOVERSCREEN": GameOver        }
 
         self.scene_name = "STARTSCREEN"
         self.scene = self.scenes[self.scene_name](self)
