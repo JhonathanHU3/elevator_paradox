@@ -14,7 +14,8 @@ class Gameplay:
         self.screen = game.screen
         self.world = World()
         self.player = Player(self.world.start_pos.x, self.world.start_pos.y)
-
+        self.next_scene_name = None
+        
         self.enemies = []
         self.projectiles = []
         self.max_enemies = 20
@@ -67,6 +68,9 @@ class Gameplay:
         # Se tiver menos que o máximo e dentro do tempo, spawna outro
         if len(self.enemies) < self.max_enemies and time.time() - self.spawn_start_time < self.spawn_duration:
             self.spawn_enemy()
+            
+        if(self.player.lifePoints <= 0):
+            self.player.die(self)
 
     def draw(self):
         self.game.screen.fill((0, 0, 0))

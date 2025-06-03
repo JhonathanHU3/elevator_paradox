@@ -8,7 +8,7 @@ class Enemy:
         self.image.fill((200, 50, 50))
         self.rect = self.image.get_rect(topleft=(x, y))
         self.lifePoints = 10;
-        self.speed = 2
+        self.speed = 1.5
         self.last_hit_time = 0 
         self.damage = 2
 

@@ -122,3 +122,7 @@ class Player:
         game.projectiles.append(projectile)
 
         pass
+    
+    def die(self, game):
+        game.next_scene_name = "GAMEOVERSCREEN"
+    
