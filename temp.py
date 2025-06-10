@@ -1,17 +1,15 @@
 import pygame
-import math
 import time
 
 class Enemy:
     def __init__(self, x, y):
-        self.image = pygame.Surface((32, 48))
-        self.image.fill((200, 50, 50))
-        self.rect = self.image.get_rect(topleft=(x, y))
-        self.lifePoints = 10;
+        self.rect = pygame.Rect(x, y, 32, 48)
         self.speed = 1.5
-        self.last_hit_time = 0 
-        self.damage = 0
-        
+        self.lifePoints = 10
+        self.last_hit_time = 0
+        self.damage = 1
+
+        # ✅ Animações
         self.walk_sprites = [
             pygame.transform.scale(pygame.image.load("assets/sprites/enemy/sprite_0.png").convert_alpha(), (32, 48)),
             pygame.transform.scale(pygame.image.load("assets/sprites/enemy/sprite_1.png").convert_alpha(), (32, 48)),
@@ -24,7 +22,7 @@ class Enemy:
             pygame.transform.scale(pygame.image.load("assets/sprites/enemy/attack/Zombie_ataque1.png").convert_alpha(), (38, 48)),
             pygame.transform.scale(pygame.image.load("assets/sprites/enemy/attack/Zombie_ataque2.png").convert_alpha(), (38, 48)),
         ]
-        
+
         self.current_sprite = 0
         self.walk_animation_speed = 0.1
         self.image = self.walk_sprites[0]
@@ -35,30 +33,27 @@ class Enemy:
         self.attacking = False
         self.attack_duration = 1.2 # segundos
         self.attack_start_time = 0
-        
+
     def update(self, player, walls, enemies, world):
-        if self.lifePoints <= 0:
-            return;
         direction = pygame.Vector2(player.rect.center) - pygame.Vector2(self.rect.center)
         if direction.length() != 0:
             direction = direction.normalize()
 
         dx = direction.x * self.speed
         dy = direction.y * self.speed
-        
+
         # 👉 Define a direção que o inimigo está olhando
         if dx > 0:
             self.facing_right = True
         elif dx < 0:
             self.facing_right = False
-        
-        # Limite de mundo
-        if (self.rect.left < 0 or self.rect.top < 0 or self.rect.right > world.width or self.rect.bottom > world.height):
-            self.lifePoints = 0;
-            return;
-            
 
-    # Move no X e verifica colisão com parede
+        # 🌍 Limite do mundo
+        if (self.rect.left < 0 or self.rect.top < 0 or
+            self.rect.right > world.width or self.rect.bottom > world.height):
+            self.lifePoints = 0
+
+        # 💥 Colisão com o player → entra no modo ataque
         if self.rect.colliderect(player.rect):
             overlap = self.rect.clip(player.rect)
             if overlap.width > overlap.height:
@@ -127,8 +122,6 @@ class Enemy:
 
 
     def draw(self, screen, offset):
-        if self.lifePoints <= 0:
-            return;
         # 🪞 Inverte se necessário
         if self.facing_right:
             screen.blit(self.image, self.rect.topleft - offset)

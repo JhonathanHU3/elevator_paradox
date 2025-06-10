@@ -58,6 +58,7 @@ class Gameplay:
     def update(self):
         self.player.update()
         self.player.move(self.world.walls)
+        
 
         for enemy in self.enemies:
             enemy.update(self.player, self.world.walls, self.enemies, self.world)
