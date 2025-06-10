@@ -14,7 +14,7 @@ class Player:
         self.attack_cooldown = 0
         self.last_attack_time = 0
         self.attacking = False
-        self.attack_duration = 0.6
+        self.attack_duration = 0.3
         self.attack_start_time = 0
 
         # Damage flash effect
@@ -191,6 +191,11 @@ class Player:
                     print("Acertou um inimigo! Vida restante:", enemy.lifePoints)
 
     def throwProjectile(self, game):
+        current_time = time.time()
+        if current_time - self.last_attack_time < 0.5:
+            return;
+        
+        self.last_attack_time = current_time;
         mouse_x, mouse_y = pygame.mouse.get_pos()
         offset = pygame.Vector2(
             self.rect.centerx - game.screen.get_width() // 2,
