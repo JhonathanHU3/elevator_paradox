@@ -192,7 +192,7 @@ class Player:
 
     def throwProjectile(self, game):
         current_time = time.time()
-        if current_time - self.last_attack_time < 0.5:
+        if current_time - self.last_attack_time < 0.3:
             return;
         
         self.last_attack_time = current_time;

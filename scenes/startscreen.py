@@ -25,6 +25,12 @@ class StartScreenScene:
         self.ORANGE = (255, 100, 0) # Define an orange color
         self.HOVER_COLOR = (200, 200, 200, 50) # Light gray with some transparency
 
+        # Música de fundo do menu
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.load('assets/sounds/menu_music.mp3')  # ou .ogg
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)  # Loop infinito
+
     def draw_button(self, rect, text):
         # Removed button background and border drawing
         # pygame.draw.rect(self.screen, self.DARK_GRAY, rect)

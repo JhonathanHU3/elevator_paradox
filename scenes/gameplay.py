@@ -35,6 +35,12 @@ class Gameplay:
         self.boss_position = None  # Store boss position before cutscene
         self.boss = None  # Reference to the boss enemy
 
+        # Música de batalha
+        if not pygame.mixer.music.get_busy() or pygame.mixer.music.get_pos() == 0:
+            pygame.mixer.music.load('assets/sounds/battle_music.mp3')
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
+
         for _ in range(self.max_enemies):
             self.spawn_enemy()
 
