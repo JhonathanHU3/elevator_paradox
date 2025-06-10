@@ -1,9 +1,8 @@
 import pygame
 
 class Projectile:
-    def __init__(self, x, y, direction, speed=10, damage=5):
-        self.image = pygame.Surface((10, 10))
-        self.image.fill((255, 0, 0))
+    def __init__(self, x, y, direction, speed=7, damage=5):
+        self.image = pygame.transform.scale(pygame.image.load("assets/sprites/projectile.png").convert_alpha(), (20, 12))
         self.rect = self.image.get_rect(center=(x, y))
         self.direction = pygame.Vector2(direction)
         if self.direction.length() != 0:
