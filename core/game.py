@@ -42,6 +42,8 @@ class Game:
             self.scene.draw()
             
             if hasattr(self.scene, "next_scene_name") and self.scene.next_scene_name:
+                self.screen.fill((0, 0, 0)) # Fill screen with black before changing scene
+                pygame.display.flip() # Force display update to black
                 self.change_scene(self.scene.next_scene_name);
 
             pygame.display.flip();

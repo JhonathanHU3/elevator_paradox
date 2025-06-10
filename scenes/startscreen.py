@@ -12,21 +12,27 @@ class StartScreenScene:
         self.DARK_GRAY = (50, 50, 50)
         self.BLACK = (0, 0, 0)
 
-        self.font_title = pygame.font.SysFont(None, 100)
+        # Load background image
+        self.background_image = pygame.image.load('assets/backgrounds/menu_background.png').convert_alpha()
+        self.background_image = pygame.transform.scale(self.background_image, (WIDTH, HEIGHT))
+
         self.font_button = pygame.font.SysFont(None, 50)
 
-        self.title_text = self.font_title.render("Elevator Paradox", True, self.WHITE)
-        self.title_rect = self.title_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+        # Fine-tuning button positions to align with background image text
+        self.start_button_rect = pygame.Rect(WIDTH // 2 - 120, HEIGHT // 2 + 70, 215, 55) # Adjusted position for START
+        self.exit_button_rect = pygame.Rect(WIDTH // 2 - 80, HEIGHT // 2 + 185, 150, 55) # Adjusted position for EXIT
 
-        self.start_button_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 - 50, 300, 60)
-        self.exit_button_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 + 30, 300, 60)
+        self.ORANGE = (255, 100, 0) # Define an orange color
+        self.HOVER_COLOR = (200, 200, 200, 50) # Light gray with some transparency
 
     def draw_button(self, rect, text):
-        pygame.draw.rect(self.screen, self.DARK_GRAY, rect)
-        pygame.draw.rect(self.screen, self.WHITE, rect, 3)
-        label = self.font_button.render(text, True, self.WHITE)
-        label_rect = label.get_rect(center=rect.center)
-        self.screen.blit(label, label_rect)
+        # Removed button background and border drawing
+        # pygame.draw.rect(self.screen, self.DARK_GRAY, rect)
+        # pygame.draw.rect(self.screen, self.WHITE, rect, 3)
+        # label = self.font_button.render(text, True, self.ORANGE) # Changed text color to orange
+        # label_rect = label.get_rect(center=rect.center)
+        # self.screen.blit(label, label_rect)
+        pass # No visual drawing for the button
 
     def handle_events(self, events):
         for e in events:
@@ -36,7 +42,7 @@ class StartScreenScene:
             elif e.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button_rect.collidepoint(e.pos):
                     print("Iniciar o jogo (clicou no botão)")
-                    self.next_scene_name = "GAMEPLAY"
+                    self.next_scene_name = "CUTSCENE"
                     
                 elif self.exit_button_rect.collidepoint(e.pos):
                     pygame.quit()
@@ -46,7 +52,23 @@ class StartScreenScene:
         pass
 
     def draw(self):
-        self.screen.fill(self.BLACK)
-        self.screen.blit(self.title_text, self.title_rect)
-        self.draw_button(self.start_button_rect, "Começar")
-        self.draw_button(self.exit_button_rect, "Sair")
+        self.screen.blit(self.background_image, (0, 0)) # Draw background
+
+        mouse_pos = pygame.mouse.get_pos()
+
+        # Hover effect for START button
+        if self.start_button_rect.collidepoint(mouse_pos):
+            s = pygame.Surface(self.start_button_rect.size, pygame.SRCALPHA) # Create a surface with alpha
+            s.fill(self.HOVER_COLOR) # Fill with hover color
+            self.screen.blit(s, self.start_button_rect.topleft) # Blit onto the screen
+
+        # Hover effect for EXIT button
+        if self.exit_button_rect.collidepoint(mouse_pos):
+            s = pygame.Surface(self.exit_button_rect.size, pygame.SRCALPHA) # Create a surface with alpha
+            s.fill(self.HOVER_COLOR) # Fill with hover color
+            self.screen.blit(s, self.exit_button_rect.topleft) # Blit onto the screen
+
+        # Removed title text drawing
+        # self.screen.blit(self.title_text, self.title_rect)
+        self.draw_button(self.start_button_rect, "START")
+        self.draw_button(self.exit_button_rect, "EXIT")
