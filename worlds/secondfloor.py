@@ -30,7 +30,7 @@ class World:
 
         self.img_floor = pygame.image.load("assets/tileset/chao.png").convert()
         self.img_wall = pygame.image.load("assets/tileset/wall.png").convert()
-        self.img_elevator = pygame.image.load("assets/tileset/elevator.png").convert()
+        self.img_elevator = pygame.image.load("assets/tileset/elevator.gif").convert()
 
         for y, row in enumerate(tile_map):
             for x, char in enumerate(row):

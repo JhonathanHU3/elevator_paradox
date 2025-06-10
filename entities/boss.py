@@ -7,19 +7,28 @@ class Boss(Enemy):
         super().__init__(x, y)
         
         # Boss stats
-        self.maxLifePoints = 500
+        self.maxLifePoints = 200
         self.lifePoints = self.maxLifePoints
         self.damage = 10
         self.speed = 5.0
         
-        # Make boss larger
-        self.image = pygame.transform.scale(self.image, (64, 96))  # Double the size
-        self.rect = self.image.get_rect(center=(x, y))
+        # Load boss specific sprites
+        self.walk_sprites = [
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/sprite_0.png").convert_alpha(), (64, 96)),
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/sprite_1.png").convert_alpha(), (64, 96)),
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/sprite_2.png").convert_alpha(), (64, 96)),
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/sprite_3.png").convert_alpha(), (64, 96))
+        ]
         
-        # Scale up attack sprites
-        self.attack_sprites = [pygame.transform.scale(sprite, (76, 96)) for sprite in self.attack_sprites]
-        # Scale up walk sprites
-        self.walk_sprites = [pygame.transform.scale(sprite, (64, 96)) for sprite in self.walk_sprites]
+        self.attack_sprites = [
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/attack/boss_ataque0.png").convert_alpha(), (76, 96)),
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/attack/boss_ataque1.png").convert_alpha(), (76, 96)),
+            pygame.transform.scale(pygame.image.load("assets/sprites/boss/attack/boss_ataque2.png").convert_alpha(), (76, 96))
+        ]
+        
+        # Set initial image and rect
+        self.image = self.walk_sprites[0]
+        self.rect = self.image.get_rect(center=(x, y))
         
         # Boss specific attributes
         self.is_boss = True
@@ -58,7 +67,7 @@ class Boss(Enemy):
         
         # Draw boss name
         font = pygame.font.SysFont(None, 24)
-        name_text = font.render("BOSS", True, (255, 255, 255))
+        name_text = font.render("ELSON", True, (255, 255, 255))
         name_rect = name_text.get_rect(center=(bar_x + bar_width//2 - offset.x, bar_y - 15 - offset.y))
         screen.blit(name_text, name_rect)
         
