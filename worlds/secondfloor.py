@@ -21,6 +21,7 @@ class World:
     def __init__(self):
         self.tiles = []
         self.walls = []
+        self.elevators = []  # Store elevator rects
         self.tile_size = 64
         self.start_pos = pygame.Vector2(0, 0)
         
@@ -29,7 +30,7 @@ class World:
 
         self.img_floor = pygame.image.load("assets/tileset/chao.png").convert()
         self.img_wall = pygame.image.load("assets/tileset/wall.png").convert()
-        self.img_elevator = pygame.image.load("assets/tileset/elevator.png").convert()
+        self.img_elevator = pygame.image.load("assets/tileset/elevator.gif").convert()
 
         for y, row in enumerate(tile_map):
             for x, char in enumerate(row):
@@ -42,6 +43,7 @@ class World:
                     self.tiles.append((self.img_floor, pos))
                 elif char == "E":
                     self.tiles.append((self.img_elevator, pos))
+                    self.elevators.append(pos)  # Add elevator rect
                 elif char == "P":
                     self.tiles.append((self.img_floor, pos))
                     self.start_pos = pygame.Vector2(pos.topleft)
