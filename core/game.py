@@ -5,6 +5,8 @@ from scenes.startscreen import StartScreenScene;
 from scenes.cutscene import Cutscene;
 from scenes.gameplay import Gameplay
 from scenes.gameover import GameOver
+from scenes.bosscutscene import BossCutscene
+from scenes.victory import VictoryScene
 
 class Game:
     def __init__(self):
@@ -21,7 +23,10 @@ class Game:
             "STARTSCREEN": StartScreenScene,
             "CUTSCENE": Cutscene,
             "GAMEPLAY": Gameplay,
-            "GAMEOVERSCREEN": GameOver        }
+            "GAMEOVERSCREEN": GameOver,
+            "BOSSCUTSCENE": BossCutscene,
+            "VICTORY": VictoryScene
+        }
 
         print("Starting with STARTSCREEN...")
         self.scene_name = "STARTSCREEN"

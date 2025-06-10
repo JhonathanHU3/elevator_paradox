@@ -21,6 +21,7 @@ class World:
     def __init__(self):
         self.tiles = []
         self.walls = []
+        self.elevators = []  # Store elevator rects
         self.tile_size = 64
         self.start_pos = pygame.Vector2(0, 0)
         
@@ -42,6 +43,7 @@ class World:
                     self.tiles.append((self.img_floor, pos))
                 elif char == "E":
                     self.tiles.append((self.img_elevator, pos))
+                    self.elevators.append(pos)  # Add elevator rect
                 elif char == "P":
                     self.tiles.append((self.img_floor, pos))
                     self.start_pos = pygame.Vector2(pos.topleft)
