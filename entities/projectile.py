@@ -22,11 +22,7 @@ class Projectile:
         for enemy in game.enemies:
             if self.rect.colliderect(enemy.rect):
                 enemy.lifePoints -= self.damage
-<<<<<<< HEAD
-                print("🔥 Projétil acertou inimigo!")
-=======
-                print("Projectile hit enemy!")
->>>>>>> meu-codigo
+                print("Projetil acertou inimigo!")
                 self.alive = False
                 break
 

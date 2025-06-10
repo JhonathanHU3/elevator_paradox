@@ -21,7 +21,7 @@ class Player:
         self.damage_timer = 0
         self.damage_flash_duration = 0.3  # seconds
 
-        # 🎨 Carrega e redimensiona os sprites
+        # Carrega e redimensiona os sprites
         self.sprites = [
             pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_0.png').convert_alpha(), (82, 82)),
             pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_1.png').convert_alpha(), (82, 82)),
@@ -39,7 +39,7 @@ class Player:
         self.speed = 5
 
         self.facing_right = True
-        self.moving = False  # ✅ Novo atributo
+        self.moving = False  # Novo atributo
 
     def move(self, walls):
         if self.attacking:
@@ -64,7 +64,7 @@ class Player:
             self.moving = True
         else:
             self.moving = False
-            self.current_sprite = 0  # ✅ Reseta animação ao parar
+            self.current_sprite = 0  # Reseta animação ao parar
 
         # Move em X
         self.rect.x += dx
@@ -149,7 +149,7 @@ class Player:
             if self.damage_timer < 0:
                 self.damage_timer = 0
 
-        # ✅ Só anima se estiver se movendo
+        # Só anima se estiver se movendo
         if self.moving:
             self.current_sprite += self.animation_speed
             if self.current_sprite >= len(self.sprites):
@@ -188,7 +188,7 @@ class Player:
             for enemy in game.enemies:
                 if attack_rect.colliderect(enemy.rect):
                     enemy.lifePoints -= self.contactDamage
-                    print("💥 Acertou um inimigo! Vida restante:", enemy.lifePoints)
+                    print("Acertou um inimigo! Vida restante:", enemy.lifePoints)
 
     def throwProjectile(self, game):
         mouse_x, mouse_y = pygame.mouse.get_pos()

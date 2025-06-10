@@ -30,7 +30,7 @@ class Enemy:
         self.image = self.walk_sprites[0]
         self.facing_right = True
 
-        # ⏱ Estado de ataque
+        # Estado de ataque
         self.attack_animation_speed = 0.07
         self.attacking = False
         self.attack_duration = 1.2 # segundos
@@ -47,7 +47,7 @@ class Enemy:
         dx = direction.x * self.speed
         dy = direction.y * self.speed
         
-        # 👉 Define a direção que o inimigo está olhando
+        # Define a direção que o inimigo está olhando
         if dx > 0:
             self.facing_right = True
         elif dx < 0:
@@ -77,15 +77,15 @@ class Enemy:
             current_time = time.time()
             if current_time - self.last_hit_time >= 1:
                 player.take_damage(self.damage)
-                print("👹 Inimigo causou dano! Vida restante:", player.lifePoints)
+                print("Inimigo causou dano! Vida restante:", player.lifePoints)
                 self.last_hit_time = current_time
 
-        # ⏳ Sai do modo ataque após o tempo acabar
+        # Sai do modo ataque após o tempo acabar
         if self.attacking:
             if time.time() - self.attack_start_time >= self.attack_duration:
                 self.attacking = False
         else:
-            # ✅ Só se move se não estiver atacando
+            # Só se move se não estiver atacando
             # Move no X e verifica colisão com parede
             self.rect.x += dx
             for wall in walls:
@@ -112,7 +112,7 @@ class Enemy:
                     if dy > 0: self.rect.bottom = enemy.rect.top
                     if dy < 0: self.rect.top = enemy.rect.bottom
 
-        # 🎞️ Atualizar sprite (sempre!)
+        # Atualizar sprite (sempre!)
         self.current_sprite += self.attack_animation_speed if self.attacking else self.walk_animation_speed
         if self.attacking and self.current_sprite >= len(self.attack_sprites):
             self.current_sprite = 0
@@ -128,7 +128,7 @@ class Enemy:
     def draw(self, screen, offset):
         if self.lifePoints <= 0:
             return
-        # 🪞 Inverte se necessário
+        # Inverte se necessário
         if self.facing_right:
             screen.blit(self.image, self.rect.topleft - offset)
         else:
