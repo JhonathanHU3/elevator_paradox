@@ -23,10 +23,10 @@ class Player:
 
         # 🎨 Carrega e redimensiona os sprites
         self.sprites = [
-            pygame.transform.scale(pygame.image.load('assets/sprites/player/Protagonista0.png').convert_alpha(), (32, 48)),
-            pygame.transform.scale(pygame.image.load('assets/sprites/player/Protagonista1.png').convert_alpha(), (32, 48)),
-            pygame.transform.scale(pygame.image.load('assets/sprites/player/Protagonista2.png').convert_alpha(), (32, 48)),
-            pygame.transform.scale(pygame.image.load('assets/sprites/player/Protagonista3.png').convert_alpha(), (32, 48))
+            pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_0.png').convert_alpha(), (82, 82)),
+            pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_1.png').convert_alpha(), (82, 82)),
+            pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_2.png').convert_alpha(), (82, 82)),
+            pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_3.png').convert_alpha(), (82, 82))
         ]
 
         self.current_sprite = 0
@@ -34,11 +34,12 @@ class Player:
 
         self.image = self.sprites[self.current_sprite]
         # Criar um hitbox menor que o sprite
-        self.rect = self.image.get_rect(topleft=(start_x, start_y))
+        self.rect = pygame.Rect(0, 0, 50, 50)  # Hitbox de 50x50 pixels
+        self.rect.center = (start_x + 41, start_y + 41)  # Centraliza o hitbox no sprite (82/2 = 41)
         self.speed = 5
 
         self.facing_right = True
-        self.moving = False 
+        self.moving = False  # ✅ Novo atributo
 
     def move(self, walls):
         if self.attacking:
@@ -83,7 +84,6 @@ class Player:
                 if dy < 0:
                     self.rect.top = wall.bottom
 
-
     def draw(self, screen, offset):
         self.image = self.sprites[int(self.current_sprite)]
 
@@ -117,7 +117,7 @@ class Player:
         bar_padding = 2  # Space between bar and border
         
         # Calculate position (above the player)
-        sprite_center_x = self.rect.centerx  # Ajusta para o centro do sprite (82/2 - 50/2)
+        sprite_center_x = self.rect.centerx + (41 - 25)  # Ajusta para o centro do sprite (82/2 - 50/2)
         bar_x = sprite_center_x - bar_width//2
         bar_y = self.rect.top - bar_height - 5  # 5 pixels above the hitbox
         
@@ -171,7 +171,7 @@ class Player:
             )
             mouse_pos_world = pygame.Vector2(mouse_x, mouse_y) + offset
 
-            direction = pygame.Vector2(mouse_pos_world) - pygame.Vector2(self.rect.center)
+            direction = mouse_pos_world - pygame.Vector2(self.rect.center)
 
             if direction.length() == 0:
                 return

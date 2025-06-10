@@ -19,8 +19,8 @@ class StartScreenScene:
         self.font_button = pygame.font.SysFont(None, 50)
 
         # Fine-tuning button positions to align with background image text
-        self.start_button_rect = pygame.Rect(WIDTH // 2 - 120, HEIGHT // 2 + 70, 215, 55) # Adjusted position for START
-        self.exit_button_rect = pygame.Rect(WIDTH // 2 - 80, HEIGHT // 2 + 185, 150, 55) # Adjusted position for EXIT
+        self.start_button_rect = pygame.Rect(WIDTH // 2 - 120, HEIGHT // 2 + 70, 210, 55) # Adjusted position for START
+        self.exit_button_rect = pygame.Rect(WIDTH // 2 - 80, HEIGHT // 2 + 185, 140, 55) # Adjusted position for EXIT
 
         self.ORANGE = (255, 100, 0) # Define an orange color
         self.HOVER_COLOR = (200, 200, 200, 50) # Light gray with some transparency

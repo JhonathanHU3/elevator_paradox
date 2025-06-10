@@ -7,10 +7,10 @@ class Enemy:
         self.image = pygame.Surface((32, 48))
         self.image.fill((200, 50, 50))
         self.rect = self.image.get_rect(topleft=(x, y))
-        self.lifePoints = 10;
+        self.lifePoints = 10
         self.speed = 1.5
         self.last_hit_time = 0 
-        self.damage = 0
+        self.damage = 2
         
         self.walk_sprites = [
             pygame.transform.scale(pygame.image.load("assets/sprites/enemy/sprite_0.png").convert_alpha(), (32, 48)),
@@ -38,7 +38,8 @@ class Enemy:
         
     def update(self, player, walls, enemies, world):
         if self.lifePoints <= 0:
-            return;
+            return
+
         direction = pygame.Vector2(player.rect.center) - pygame.Vector2(self.rect.center)
         if direction.length() != 0:
             direction = direction.normalize()
@@ -54,11 +55,10 @@ class Enemy:
         
         # Limite de mundo
         if (self.rect.left < 0 or self.rect.top < 0 or self.rect.right > world.width or self.rect.bottom > world.height):
-            self.lifePoints = 0;
-            return;
-            
+            self.lifePoints = 0
+            return
 
-    # Move no X e verifica colisão com parede
+        # Dano ao player
         if self.rect.colliderect(player.rect):
             overlap = self.rect.clip(player.rect)
             if overlap.width > overlap.height:
@@ -125,10 +125,9 @@ class Enemy:
         else:
             self.image = self.walk_sprites[int(self.current_sprite)]
 
-
     def draw(self, screen, offset):
         if self.lifePoints <= 0:
-            return;
+            return
         # 🪞 Inverte se necessário
         if self.facing_right:
             screen.blit(self.image, self.rect.topleft - offset)
