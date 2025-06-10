@@ -17,6 +17,10 @@ class Player:
         self.attack_duration = 0.6
         self.attack_start_time = 0
 
+        # Damage flash effect
+        self.damage_timer = 0
+        self.damage_flash_duration = 0.3  # seconds
+
         # 🎨 Carrega e redimensiona os sprites
         self.sprites = [
             pygame.transform.scale(pygame.image.load('assets/sprites/player/sprite_0.png').convert_alpha(), (82, 82)),
@@ -29,7 +33,9 @@ class Player:
         self.animation_speed = 0.1
 
         self.image = self.sprites[self.current_sprite]
-        self.rect = self.image.get_rect(topleft=(start_x, start_y))
+        # Criar um hitbox menor que o sprite
+        self.rect = pygame.Rect(0, 0, 50, 50)  # Hitbox de 50x50 pixels
+        self.rect.center = (start_x + 41, start_y + 41)  # Centraliza o hitbox no sprite (82/2 = 41)
         self.speed = 5
 
         self.facing_right = True
@@ -83,9 +89,52 @@ class Player:
 
         if not self.facing_right:
             flipped_image = pygame.transform.flip(self.image, True, False)
-            screen.blit(flipped_image, self.rect.topleft - offset)
+            if self.damage_timer > 0:
+                # Create a copy of the image
+                flash_image = flipped_image.copy()
+                # Add red tint by increasing red channel
+                flash_image.fill((255, 0, 0, 0), special_flags=pygame.BLEND_RGBA_ADD)
+                screen.blit(flash_image, self.rect.topleft - offset)
+            else:
+                screen.blit(flipped_image, self.rect.topleft - offset)
         else:
-            screen.blit(self.image, self.rect.topleft - offset)
+            if self.damage_timer > 0:
+                # Create a copy of the image
+                flash_image = self.image.copy()
+                # Add red tint by increasing red channel
+                flash_image.fill((255, 0, 0, 0), special_flags=pygame.BLEND_RGBA_ADD)
+                screen.blit(flash_image, self.rect.topleft - offset)
+            else:
+                screen.blit(self.image, self.rect.topleft - offset)
+        
+        # Draw health bar
+        self.draw_health_bar(screen, offset)
+
+    def draw_health_bar(self, screen, offset):
+        # Health bar dimensions
+        bar_width = 50
+        bar_height = 5
+        bar_padding = 2  # Space between bar and border
+        
+        # Calculate position (above the player)
+        sprite_center_x = self.rect.centerx + (41 - 25)  # Ajusta para o centro do sprite (82/2 - 50/2)
+        bar_x = sprite_center_x - bar_width//2
+        bar_y = self.rect.top - bar_height - 5  # 5 pixels above the hitbox
+        
+        # Draw background (gray)
+        pygame.draw.rect(screen, (100, 100, 100), 
+                        (bar_x - offset.x, bar_y - offset.y, 
+                         bar_width, bar_height))
+        
+        # Calculate current health width
+        health_ratio = self.lifePoints / 20  # 20 is max health
+        current_width = int(bar_width * health_ratio)
+        
+        # Draw health (green)
+        if current_width > 0:
+            pygame.draw.rect(screen, (0, 255, 0), 
+                           (bar_x - offset.x, bar_y - offset.y, 
+                            current_width, bar_height))
 
     def update(self):
         current_time = time.time()
@@ -93,6 +142,12 @@ class Player:
         if self.attacking:
             if current_time - self.attack_start_time >= self.attack_duration:
                 self.attacking = False
+
+        # Update damage flash timer
+        if self.damage_timer > 0:
+            self.damage_timer -= 1/60  # Assuming 60 FPS
+            if self.damage_timer < 0:
+                self.damage_timer = 0
 
         # ✅ Só anima se estiver se movendo
         if self.moving:
@@ -153,3 +208,7 @@ class Player:
 
     def die(self, game):
         game.next_scene_name = "GAMEOVERSCREEN"
+
+    def take_damage(self, amount):
+        self.lifePoints -= amount
+        self.damage_timer = self.damage_flash_duration

@@ -64,7 +64,7 @@ class Enemy:
                     self.rect.right = player.rect.right + self.rect.width
             current_time = time.time()
             if current_time - self.last_hit_time >= 1:
-                player.lifePoints -= self.damage
+                player.take_damage(self.damage)
                 print("👹 Inimigo causou dano! Vida restante:", player.lifePoints)
                 self.last_hit_time = current_time
 
